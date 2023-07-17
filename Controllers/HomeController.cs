@@ -18,7 +18,22 @@ namespace AjaxHMK.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult HMK1()
+        {
+            return View();
+        }
+
+        public IActionResult HMK2()
+        {
+            return View();
+        }
+
+        public IActionResult HMK3()
+        {
+            return View();
+        }
+
+        public IActionResult HMK4()
         {
             return View();
         }

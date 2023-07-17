@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewData["Title"] = "HMK2";
+}
+
+<h4>【作業二】引用 datas/Travel.js 中的JSON，讀取資料後，透過 bootstrap cards component 顯示在網頁上</h4>
+<br />
+<div class="container">
+    <div class="card-group">
+        <div id ="cardContainer" class="d-flex flex-row">
+            <div class="col-sm-3">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+
+        const Spotdatas = spots.CommonFormat.Section.map(theSpot => {
+
+            const { stitle, xbody, file } = theSpot;
+            if (file.img.length > 1) {
+                console.log(file.img[0].text);
+                return (
+                    `<div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="${file.img[0].text}">
+                           <div class="card-body">
+                              <p class="card-text">${stitle}<br>${xbody}</p>
+                            </div>
+                     </div>`
+                );
+            }
+            else {
+                return (
+                    `<div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="${file.img.text}">
+                           <div class="card-body">
+                             <p class="card-text">${stitle}<br>${xbody}</p>
+                           </div>
+                     </div>`                
+                     );
+            }
+        });
+
+        const container = document.querySelector("#cardContainer");
+        container.innerHTML = Spotdatas.join("");
+
+    </script>
+}
+
+@section Styles{
+
+}

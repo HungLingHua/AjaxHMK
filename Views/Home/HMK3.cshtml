@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "HMK3";
+}
+
+<h4>
+    【作業三】檢查帳號是否存在<br />
+    1.製作會員註冊頁面<br />
+    2.使用者輸入姓名離開後，透過Ajax技術將姓名送到api/CheckAccount Action<br />
+    3.在 CheckAccount Action 中檢查帳號是否存在，將檢查結果回傳給Client端顯示
+</h4>
+<br />
+<div class="container">
+    <form action="#" method="get">
+        <label for="account">姓名:</label>
+        <input type="text" class="form-control" id="account" name="Name" required />
+        <div id="div1"></div>
+
+        <label for="email">電子郵件:</label>
+        <input type="email" class="form-control" id="email" name="Email" required />
+
+        <label for="age">年齡:</label>
+        <input type="text" class="form-control" id="age" name="Age" required />
+
+    </form>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        //第一步 找到要控制的對象
+        const txtName = document.querySelector('#account');
+        const divAlert = document.querySelector('#div1');
+
+
+
+        //第二步 在甚麼行為下
+        txtName.addEventListener('mouseleave',()=>{
+            if(txtName.value.trim() !==''){
+                //1.建立Ajax物件
+                const xhr = new XMLHttpRequest();
+
+                //2.對伺服器發出Request
+                xhr.open('GET', `/Api/CheckAccount?Name=${txtName.value}`);
+                xhr.send();
+
+                //3.load事件表示伺服器已經回傳資料了
+                xhr.addEventListener('load', () => {
+                    const data = xhr.responseText;
+                    divAlert.innerHTML = data;
+                });
+            }
+            else{
+                divAlert.innerHTML='';
+            }
+        })
+
+    </script>
+
+}
+
+@section Styles{
+
+}
+
+

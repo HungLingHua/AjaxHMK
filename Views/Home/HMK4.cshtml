@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "HMK4";
+}
+
+<h4>【作業四】試著做做看 PPT42 住址連動的功能</h4>
+
+<select id="selectCity">
+</select>
+<select id="selectDistrict">
+</select>
+<select id="selectRoad">
+</select>
+
+@section Scripts{
+    <script>
+        const selCity = document.querySelector('#selectCity');
+        const selDistrict = document.querySelector('#selectDistrict');
+        const selRoad = document.querySelector('#selectRoad');
+
+        function LoadCities() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/cities');
+            xhr.send();
+            xhr.addEventListener('load', () => {
+                const datas = JSON.parse(xhr.responseText);
+                var cities = datas.map(city => {
+                    return (`<option value="${city}">${city}</option>`)
+                })
+                selCity.innerHTML = cities.join("");
+                LoadDistricts();
+                //console.log(selCity.options[selCity.selectedIndex].value);
+            })
+        }
+
+        function LoadDistricts() {
+            const city = selCity.options[selCity.selectedIndex].value;
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/districts?city=${city}`);
+            xhr.send();
+            xhr.addEventListener('load', () => {
+                const datas = JSON.parse(xhr.responseText);
+                var districts = datas.map(district => {
+                    return (`<option value="${district}">${district}</option>`)
+                })
+                selDistrict.innerHTML = districts.join("");
+                // console.log(selDistrict.options[selDistrict.selectedIndex].value);
+                LoadRoads();
+            })
+        }
+
+        function LoadRoads() {
+            const district = selDistrict.options[selDistrict.selectedIndex].value;
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/roads?SiteId=${district}`);
+            xhr.send();
+            xhr.addEventListener('load', () => {
+                const datas = JSON.parse(xhr.responseText);
+                var roads = datas.map(road => {
+                    return (`<option value="${road}">${road}</option>`)
+                })
+                selRoad.innerHTML = roads.join("");
+            })
+        }
+        LoadCities();
+        selCity.addEventListener('change', () => {
+            LoadDistricts()
+        })
+        selDistrict.addEventListener('change', () => {
+            LoadRoads();
+        });
+    </script>
+}
+
