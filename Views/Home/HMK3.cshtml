@@ -36,13 +36,13 @@
 
 
         //第二步 在甚麼行為下
-        txtName.addEventListener('mouseleave',()=>{
+        txtName.addEventListener('blur',()=>{
             if(txtName.value.trim() !==''){
                 //1.建立Ajax物件
                 const xhr = new XMLHttpRequest();
 
                 //2.對伺服器發出Request
-                xhr.open('GET', `/Api/CheckAccount?Name=${txtName.value}`);
+                xhr.open('GET', `@Url.Content("~/Api/CheckAccount?Name=")${txtName.value}`);
                 xhr.send();
 
                 //3.load事件表示伺服器已經回傳資料了

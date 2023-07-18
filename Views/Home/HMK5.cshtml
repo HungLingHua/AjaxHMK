@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "HMK5";
+}
+
+<h4>【作業五】 選擇圖片上傳時先進行預覽</h4>
+<div class="row">
+    <div class="col-6">
+        <label for="photo" class="form-label">檔案上傳</label>
+        <input type="file" class="form-control" id="photo" name="photo" />
+        <img src="" class="img-thumbnail" id="getPhoto"/>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        const uploadPhoto=document.querySelector('#photo');
+
+        uploadPhoto.addEventListener('change',()=>{
+            const file=uploadPhoto.files;
+            if(file.length==0){
+                $('#getPhoto').attr('src',null);
+            }
+            else{
+                const objectURL=URL.createObjectURL(file[0]);
+                $('#getPhoto').attr('src',objectURL);
+            }
+        })
+    </script>
+}
+
+@section Styles{
+    <style></style>
+}
+
+

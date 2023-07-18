@@ -61,5 +61,43 @@ namespace AjaxHMK.Controllers
             return Json(roads);
         }
 
+        [HttpPost]
+        public IActionResult Register(Members member, IFormFile photo)
+        {
+            //string photoInfo=$"{photo.FileName}-{photo.Length}-{photo.ContentType}";
+            //***檔案上傳***
+            string rootPath = Path.Combine(_host.WebRootPath, "uploads", photo.FileName);
+
+            using (var fileStream = new FileStream(rootPath, FileMode.Create))
+            {
+                photo.CopyTo(fileStream);
+            }
+
+            //***寫進資料庫***
+            member.FileName = photo.FileName;
+            byte[]? photoByte = null;
+            using (var memoryStream = new MemoryStream())
+            {
+                photo.CopyTo(memoryStream);
+                photoByte = memoryStream.ToArray();
+            }
+            member.FileData = photoByte;
+
+            _context.Members.Add(member);
+            _context.SaveChanges();
+
+
+            return Content(rootPath);
+        }
+
+        public IActionResult GetImageByte(int id = 0)
+        {
+            Members? _member = _context.Members.Find(id);
+            byte[]? img = _member.FileData;
+            return File(img, "image/jpeg");
+
+        }
+
+
     }
 }
