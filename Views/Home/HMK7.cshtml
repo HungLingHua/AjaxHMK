@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "HMK7";
+}
+
+<h4>【作業七】 想想看 AutoComplete 的功能要如何做</h4>
+<br />
+<label for="name">請輸入姓名</label>
+<input type="text" id="name" />
+
+@section Scripts{
+    <script>
+
+        async function autoComplete(){
+            const response = await fetch(`/api/GetMemebersName`);
+            const data=await response.json();
+            let datas=data
+
+            $('#name').autocomplete({
+                source:datas
+            })
+        }
+        $(document).ready(function(){
+            autoComplete();
+        })
+
+    </script>
+}
+
+@section Styles{
+
+}

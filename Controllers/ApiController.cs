@@ -98,6 +98,11 @@ namespace AjaxHMK.Controllers
 
         }
 
+        public IActionResult GetMemebersName()
+        {
+            var membersName = _context.Members.Select(c => c.Name);
+            return Json(membersName);
+        }
 
     }
 }
